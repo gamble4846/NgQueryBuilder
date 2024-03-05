@@ -27,4 +27,5 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 npm uninstall ng-query-builder
-npm install "D:\Github\NgQueryBuilder\NPM Library\NgQueryBuilder\dist\ng-query-builder"
+npm install "../../NPM Library/NgQueryBuilder/dist/ng-query-builder"
+npm start

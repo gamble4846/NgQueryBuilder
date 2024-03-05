@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer, forkJoin } from 'rxjs';
+import { Observable, Observer, concat, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ export class NgQueryBuilderService {
 
   setupExternalFiles(): Observable<boolean> {
     return new Observable<any>((observer: Observer<boolean>) => {
+      let loadedCount = 0;
       let AllCSSAndJS = [
         this.LoadCSS("bootstrap", "https://cdn.jsdelivr.net/gh/gamble4846/NgQueryBuilder@master/NPM%20Library/NgQueryBuilder/projects/ng-query-builder/src/lib/ng-query-builder/assets/Styles/bootstrap.css"),
         this.LoadCSS("chosen", "https://cdn.jsdelivr.net/gh/gamble4846/NgQueryBuilder@master/NPM%20Library/NgQueryBuilder/projects/ng-query-builder/src/lib/ng-query-builder/assets/Styles/chosen.css"),
@@ -32,9 +33,21 @@ export class NgQueryBuilderService {
         this.LoadJS("query-builder", "https://cdn.jsdelivr.net/gh/gamble4846/NgQueryBuilder@master/NPM%20Library/NgQueryBuilder/projects/ng-query-builder/src/lib/ng-query-builder/assets/Scripts/query-builder.js")
       ];
 
-      forkJoin(AllCSSAndJS).subscribe((response) => {
-        observer.next(true);
-        observer.complete();
+      concat(AllCSSAndJS).subscribe((response) => {
+        response.subscribe((response2) => {
+          if (response2) {
+            loadedCount++;
+            if (AllCSSAndJS.length <= loadedCount) {
+              observer.next(true);
+              observer.complete();
+            }
+          }
+          else {
+            observer.next(false);
+            observer.complete();
+          }
+        });
+
       });
 
       // this.LoadCSS("bootstrap", "https://cdn.jsdelivr.net/gh/gamble4846/NgQueryBuilder@master/NPM%20Library/NgQueryBuilder/projects/ng-query-builder/src/lib/ng-query-builder/assets/Styles/bootstrap.css").subscribe((response) => { if (response) { loadedCount++; if (loadedCount >= totalCount) { observer.next(true); observer.complete(); } } else { observer.next(false); observer.complete(); } }, (error) => { observer.next(false); observer.complete(); });
@@ -70,7 +83,6 @@ export class NgQueryBuilderService {
         link.href = path;
         link.media = 'all';
         head.appendChild(link);
-
         link.onload = () => {
           observer.next(true);
           observer.complete();
@@ -96,7 +108,6 @@ export class NgQueryBuilderService {
         scriptElement.type = "text/javascript";
         scriptElement.src = path;
         body.appendChild(scriptElement);
-
         scriptElement.onload = () => {
           observer.next(true);
           observer.complete();

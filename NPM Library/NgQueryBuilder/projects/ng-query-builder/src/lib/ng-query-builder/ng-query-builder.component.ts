@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { NgQueryBuilderService } from './ng-query-builder.service';
-declare var jspreadsheet: any;
+import { FiltersModel } from './ng-query-builder.model';
 declare var $: any;
 
 @Component({
@@ -9,56 +9,44 @@ declare var $: any;
   styleUrl: './ng-query-builder.component.css'
 })
 export class NgQueryBuilderComponent {
-  constructor(private _NgQueryBuilderService: NgQueryBuilderService) { }
+  constructor(
+    private _NgQueryBuilderService: NgQueryBuilderService,
+    private _ChangeDetectorRef: ChangeDetectorRef
+  ) { }
+
   @ViewChild('NgQueryBuilderDIV') NgQueryBuilderDIV: any;
 
-  ngOnInit(): void {
+  @Input() AddGroupIconClass: string = "bi-plus-circle-fill";
+  @Input() AddRuleIconClass: string = "bi-plus-lg";
+  @Input() RemoveGroupIconClass: string = "bi-x-lg";
+  @Input() RemoveRuleIconClass: string = "bi-x-lg";
+  @Input() ErrorIconClass: string = "";
+
+  @Input() Filters: Array<FiltersModel> = [];
+
+
+  ngAfterViewInit(): void {
+    this.SetupQueryBuilder();
+    this._ChangeDetectorRef.detectChanges();
+  }
+
+  SetupQueryBuilder() {
     this._NgQueryBuilderService.setupExternalFiles().subscribe((response: boolean) => {
       console.log(response, this.NgQueryBuilderDIV);
       $(this.NgQueryBuilderDIV.nativeElement).queryBuilder({
         icons: {
-          add_group: 'fas fa-plus-square',
-          add_rule: 'fas fa-plus',
-          remove_group: 'fas fa-minus-square',
-          remove_rule: 'far fa-trash-alt',
-          error: 'fas fa-exclamation-circle'
+          add_group: this.AddGroupIconClass,
+          add_rule: this.AddRuleIconClass,
+          remove_group: this.RemoveGroupIconClass,
+          remove_rule: this.RemoveRuleIconClass,
+          error: this.ErrorIconClass
         },
-        filters: [
-          {
-            id: 'name',
-            field: 'username',
-            label: {
-              en: 'Name',
-              fr: 'Nom'
-            },
-            icon: 'bi-person-fill',
-            value_separator: ',',
-            type: 'string',
-            optgroup: 'core',
-            default_value: 'Mistic',
-            size: 30,
-            validation: {
-              allow_empty_value: true
-            },
-            unique: true
-          },
-          {
-            id: 'age',
-            label: 'Age',
-            icon: 'bi-calendar3',
-            type: 'integer',
-            input: 'text',
-            value_separator: '|',
-            optgroup: 'core',
-            description: (rule: any) => {
-              if (rule.operator && ['in', 'not_in'].indexOf(rule.operator.type) !== -1) {
-                return 'Use a pipe (|) to separate multiple values with "in" and "not in" operators';
-              }
-              return '';
-            }
-          },
-        ]
+        filters: this.Filters,
       });
     });
+  }
+
+  ngOnInit(): void {
+
   }
 }
