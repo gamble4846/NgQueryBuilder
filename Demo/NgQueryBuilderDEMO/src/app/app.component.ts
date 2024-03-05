@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FiltersModel } from 'ng-query-builder';
+import { Component, ViewChild } from '@angular/core';
+import { FiltersModel, NgQueryBuilderComponent } from 'ng-query-builder';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +8,9 @@ import { FiltersModel } from 'ng-query-builder';
 })
 export class AppComponent {
   title = 'NgQueryBuilderDEMO';
+
+  @ViewChild('NgQueryBuilder') NgQueryBuilder: NgQueryBuilderComponent | undefined;
+
   Filters: Array<FiltersModel> = [
     {
       id: 'name',
@@ -37,7 +40,7 @@ export class AppComponent {
         allow_empty_value: true,
         callback: undefined
       },
-      operators: [],
+      operators: undefined,
       default_operator: undefined,
       plugin: undefined,
       plugin_config: undefined,
@@ -73,7 +76,7 @@ export class AppComponent {
         allow_empty_value: undefined,
         callback: undefined
       },
-      operators: [],
+      operators: undefined,
       default_operator: undefined,
       plugin: undefined,
       plugin_config: undefined,
@@ -90,4 +93,64 @@ export class AppComponent {
       icon: "bi-calendar3"
     }
   ];
+
+  Clear() {
+    if (this.NgQueryBuilder)
+      this.NgQueryBuilder.Clear();
+  }
+
+  Reset() {
+    if (this.NgQueryBuilder)
+      this.NgQueryBuilder.Reset();
+  }
+
+  AddGroup() {
+    console.log(this.GetGroups()[1].addGroup);
+    if (this.NgQueryBuilder)
+      this.GetGroups()[1].addGroup({
+        "condition": "AND",  // or "OR" as per your requirement
+        "rules": []
+      });
+    // this.NgQueryBuilder.AddGroup(this.GetGroups()[1]);
+  }
+
+  GetGroups() {
+    if (this.NgQueryBuilder) {
+      let groups = this.NgQueryBuilder.GetListGroups();
+      console.log(groups);
+      return groups;
+    }
+  }
+
+  GetModel() {
+    if (this.NgQueryBuilder)
+      console.log(this.NgQueryBuilder.GetModel());
+  }
+
+  AfterAddGroup(event: any) { console.log(event) }
+  AfterAddRule(event: any) { console.log(event) }
+  AfterApplyGroupFlags(event: any) { console.log(event) }
+  AfterApplyRuleFlags(event: any) { console.log(event) }
+  AfterClear(event: any) { console.log(event) }
+  AfterCreateRuleFilters(event: any) { console.log(event) }
+  AfterCreateRuleInput(event: any) { console.log(event) }
+  AfterCreateRuleOperators(event: any) { console.log(event) }
+  AfterDeleteGroup(event: any) { console.log(event) }
+  AfterDeleteRule(event: any) { console.log(event) }
+  AfterInit(event: any) { console.log(event) }
+  AfterReset(event: any) { console.log(event) }
+  AfterSetRules(event: any) { console.log(event) }
+  AfterUpdateGroupCondition(event: any) { console.log(event) }
+  AfterUpdateRuleFilter(event: any) { console.log(event) }
+  AfterUpdateRuleOperator(event: any) { console.log(event) }
+  AfterUpdateRuleValue(event: any) { console.log(event) }
+  BeforeAddGroup(event: any) { console.log(event) }
+  BeforeAddRule(event: any) { console.log(event) }
+  BeforeClear(event: any) { console.log(event) }
+  BeforeDeleteGroup(event: any) { console.log(event) }
+  BeforeDeleteRule(event: any) { console.log(event) }
+  BeforeDestroy(event: any) { console.log(event) }
+  BeforeReset(event: any) { console.log(event) }
+  RulesChanged(event: any) { console.log(event) }
+  ValidationError(event: any) { console.log(event) }
 }

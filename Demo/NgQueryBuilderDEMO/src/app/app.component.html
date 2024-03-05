@@ -1,3 +1,23 @@
 <div style="padding: 20px;">
-  <lib-ng-query-builder [Filters]="Filters"></lib-ng-query-builder>
+  <lib-ng-query-builder #NgQueryBuilder [Filters]="Filters" (AfterAddGroup)="AfterAddGroup($event)"
+    (AfterAddRule)="AfterAddRule($event)" (AfterApplyGroupFlags)="AfterApplyGroupFlags($event)"
+    (AfterApplyRuleFlags)="AfterApplyRuleFlags($event)" (AfterClear)="AfterClear($event)"
+    (AfterCreateRuleFilters)="AfterCreateRuleFilters($event)" (AfterCreateRuleInput)="AfterCreateRuleInput($event)"
+    (AfterCreateRuleOperators)="AfterCreateRuleOperators($event)" (AfterDeleteGroup)="AfterDeleteGroup($event)"
+    (AfterDeleteRule)="AfterDeleteRule($event)" (AfterInit)="AfterInit($event)" (AfterReset)="AfterReset($event)"
+    (AfterSetRules)="AfterSetRules($event)" (AfterUpdateGroupCondition)="AfterUpdateGroupCondition($event)"
+    (AfterUpdateRuleFilter)="AfterUpdateRuleFilter($event)" (AfterUpdateRuleOperator)="AfterUpdateRuleOperator($event)"
+    (AfterUpdateRuleValue)="AfterUpdateRuleValue($event)" (BeforeAddGroup)="BeforeAddGroup($event)"
+    (BeforeAddRule)="BeforeAddRule($event)" (BeforeClear)="BeforeClear($event)"
+    (BeforeDeleteGroup)="BeforeDeleteGroup($event)" (BeforeDeleteRule)="BeforeDeleteRule($event)"
+    (BeforeDestroy)="BeforeDestroy($event)" (BeforeReset)="BeforeReset($event)" (RulesChanged)="RulesChanged($event)"
+    (ValidationError)="ValidationError($event)"></lib-ng-query-builder>
+</div>
+
+<div style="padding: 20px; padding-top: 0px;">
+  <button (click)="Clear()">Clear</button>
+  <button (click)="Reset()">Reset</button>
+  <button (click)="GetModel()">GetModel</button>
+  <button (click)="GetGroups()">GetGroups</button>
+  <button (click)="AddGroup()">AddGroup</button>
 </div>
