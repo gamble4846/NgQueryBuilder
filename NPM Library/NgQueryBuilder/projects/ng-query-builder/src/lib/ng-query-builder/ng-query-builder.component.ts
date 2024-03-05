@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgQueryBuilderService } from './ng-query-builder.service';
 import { FiltersModel } from './ng-query-builder.model';
 declare var $: any;
@@ -21,8 +21,13 @@ export class NgQueryBuilderComponent {
   @Input() RemoveGroupIconClass: string = "bi-x-lg";
   @Input() RemoveRuleIconClass: string = "bi-x-lg";
   @Input() ErrorIconClass: string = "";
-
   @Input() Filters: Array<FiltersModel> = [];
+
+  @Output() AfterAddGroup = new EventEmitter<any>();
+  @Output() AfterAddRule = new EventEmitter<any>();
+
+  QueryBuilderObject: any;
+  isLoading: boolean = false;
 
 
   ngAfterViewInit(): void {
@@ -31,9 +36,11 @@ export class NgQueryBuilderComponent {
   }
 
   SetupQueryBuilder() {
+    this.isLoading = true;
     this._NgQueryBuilderService.setupExternalFiles().subscribe((response: boolean) => {
       console.log(response, this.NgQueryBuilderDIV, "test");
-      $(this.NgQueryBuilderDIV.nativeElement).queryBuilder({
+      this.QueryBuilderObject = $(this.NgQueryBuilderDIV.nativeElement);
+      this.QueryBuilderObject.queryBuilder({
         icons: {
           add_group: this.AddGroupIconClass,
           add_rule: this.AddRuleIconClass,
@@ -42,7 +49,14 @@ export class NgQueryBuilderComponent {
           error: this.ErrorIconClass
         },
         filters: this.Filters,
-      });
+      }).on("afterAddGroup.queryBuilder", (event: any, group: any) => {
+        this.AfterAddGroup.emit({ event: event, group: group });
+      }).on("afterAddRule.queryBuilder", (event: any, rule: any) => {
+        this.AfterAddRule.emit({ event: event, group: rule });
+      })
+      this.isLoading = false;
+
+      console.log(this.QueryBuilderObject);
     });
   }
 
