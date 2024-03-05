@@ -32,7 +32,7 @@ export class NgQueryBuilderComponent {
 
   SetupQueryBuilder() {
     this._NgQueryBuilderService.setupExternalFiles().subscribe((response: boolean) => {
-      console.log(response, this.NgQueryBuilderDIV);
+      console.log(response, this.NgQueryBuilderDIV, "test");
       $(this.NgQueryBuilderDIV.nativeElement).queryBuilder({
         icons: {
           add_group: this.AddGroupIconClass,

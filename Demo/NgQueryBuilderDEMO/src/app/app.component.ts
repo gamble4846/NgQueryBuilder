@@ -16,7 +16,7 @@ export class AppComponent {
         en: 'Name',
         fr: 'Nom'
       },
-      optgroup: "core",
+      optgroup: undefined,
       type: "string",
       input: undefined,
       values: undefined,
@@ -52,7 +52,7 @@ export class AppComponent {
       id: 'age',
       field: undefined,
       label: "Age",
-      optgroup: "core",
+      optgroup: undefined,
       type: "integer",
       input: "text",
       values: undefined,
