@@ -135,12 +135,6 @@ export class NgQueryBuilderComponent {
 
   }
 
-  AddGroup(parent: any, addRule: boolean = true, data: any = null, flags: any = null) {
-    if (this.QueryBuilderObject) {
-      this.QueryBuilderObject.queryBuilder('addGroup', { parent: parent, addRule: addRule, data: data, flags: flags });
-    }
-  }
-
   Clear() {
     if (this.QueryBuilderObject) {
       this.QueryBuilderObject.queryBuilder('clear');
@@ -151,26 +145,6 @@ export class NgQueryBuilderComponent {
     if (this.QueryBuilderObject) {
       this.QueryBuilderObject.queryBuilder('reset');
     }
-  }
-
-  GetListGroups() {
-    var model = this.GetModel();
-    let extractGroups = (node: any, groups: any) => {
-      if (node.hasOwnProperty('rules')) {
-        node.rules.forEach((rule: any) => {
-          extractGroups(rule, groups);
-        });
-      }
-    }
-
-    var allGroups: any = [];
-
-    allGroups.push(model);
-
-    model.rules.forEach((rule: any) => {
-      extractGroups(rule, allGroups);
-    });
-    return allGroups;
   }
 
   GetModel(target: any = undefined) {

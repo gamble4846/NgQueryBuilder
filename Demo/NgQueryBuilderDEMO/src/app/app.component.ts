@@ -104,24 +104,6 @@ export class AppComponent {
       this.NgQueryBuilder.Reset();
   }
 
-  AddGroup() {
-    console.log(this.GetGroups()[1].addGroup);
-    if (this.NgQueryBuilder)
-      this.GetGroups()[1].addGroup({
-        "condition": "AND",  // or "OR" as per your requirement
-        "rules": []
-      });
-    // this.NgQueryBuilder.AddGroup(this.GetGroups()[1]);
-  }
-
-  GetGroups() {
-    if (this.NgQueryBuilder) {
-      let groups = this.NgQueryBuilder.GetListGroups();
-      console.log(groups);
-      return groups;
-    }
-  }
-
   GetModel() {
     if (this.NgQueryBuilder)
       console.log(this.NgQueryBuilder.GetModel());
