@@ -1,0 +1,21 @@
+.EventLogsContainer {
+    margin: 20px;
+    padding: 5px;
+    border: 1px solid black;
+    overflow: auto;
+    max-height: 500px;
+}
+
+.LogContainer {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.OpenFullLogSpan {
+    padding-left: 10px;
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
