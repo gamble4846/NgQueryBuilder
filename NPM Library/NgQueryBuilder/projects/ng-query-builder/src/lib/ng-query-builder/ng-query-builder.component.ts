@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgQueryBuilderService } from './ng-query-builder.service';
 import { FiltersModel } from './ng-query-builder.model';
 declare var $: any;
@@ -6,7 +6,8 @@ declare var $: any;
 @Component({
   selector: 'lib-ng-query-builder',
   templateUrl: './ng-query-builder.component.html',
-  styleUrl: './ng-query-builder.component.css'
+  styleUrl: './ng-query-builder.component.css',
+  // encapsulation: ViewEncapsulation.None,
 })
 export class NgQueryBuilderComponent {
   constructor(
