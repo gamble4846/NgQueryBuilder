@@ -155,4 +155,14 @@ export class NgQueryBuilderComponent {
       return this.QueryBuilderObject.queryBuilder('getModel');
     }
   }
+
+  GetJSON() {
+    return JSON.stringify(
+      this.QueryBuilderObject.queryBuilder('getRules', {
+        get_flags: true,
+        skip_empty: true
+      }),
+      undefined, 2
+    )
+  }
 }
