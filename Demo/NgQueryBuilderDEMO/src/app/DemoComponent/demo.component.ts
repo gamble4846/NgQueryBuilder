@@ -12,7 +12,7 @@ export class DemoComponent {
 
   EventLogs: Array<any> = [];
   LatestLog: any;
-  ShowFullLog:boolean = false;
+  ShowFullLog: boolean = false;
   ModalTitle: string = "";
 
   Filters: Array<FiltersModel> = [
@@ -100,8 +100,14 @@ export class DemoComponent {
 
   constructor(public _Router: Router) { }
 
-  HideFullLog(){
+  HideFullLog() {
     this.ShowFullLog = false;
+  }
+
+  LogJSON() {
+    if (this.NgQueryBuilder) {
+      console.log(this.NgQueryBuilder.GetJSON());
+    }
   }
 
   Decycle(obj: any, stack: any[] = []): any {
@@ -134,7 +140,7 @@ export class DemoComponent {
   }
 
   GetModel() {
-    if (this.NgQueryBuilder){
+    if (this.NgQueryBuilder) {
       this.LatestLog = this.NgQueryBuilder.GetModel();
       this.ModalTitle = "GetModel";
       this.ShowFullLog = true;
